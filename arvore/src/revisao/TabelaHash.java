@@ -11,6 +11,7 @@ public class TabelaHash {
 	private int elements;
 
 	public TabelaHash(int size) {
+		this.elements = 0;
 		this.size = size;
 		this.array = new Pair[size];
 	}
@@ -35,7 +36,8 @@ public class TabelaHash {
 			}
 			entrada = sc.nextLine().split(" ");
 		}
-
+		
+		sc.close();
 	}
 
 	private int[] keys() {
@@ -67,11 +69,10 @@ public class TabelaHash {
 
 	private Pair[] remove(int key) {
 		if (elements > 0) {
-			int i = 0;
-			int index = funcao(key, i);
-			while (array[index].getKey() != key && i < size)
-				index = funcao(key, ++i);
-			if (array[index].getKey() == key) {
+			
+			int index = indexOf(key);
+			
+			if (index != -1) {
 				array[index] = null;
 				elements--;
 			}
@@ -81,11 +82,11 @@ public class TabelaHash {
 	}
 
 	private Pair[] put(int key, String value) {
-		if (size > elements) {
+		
 			int index = indexOf(key);
 			if (index != -1) {
 				array[index].setValue(value);
-			} else {
+			} else if (size > elements) {
 				int j = 0;
 				int indice = funcao(key, j);
 
@@ -96,7 +97,7 @@ public class TabelaHash {
 				array[indice] = new Pair(key, value);
 				elements++;
 			}
-		}
+		
 		return array;
 
 	}
